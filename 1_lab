@@ -1,1 +1,76 @@
+#include <iostream>
+#include <vector>
+using std::vector;
+
+void printMatrix(vector<vector<int>> &vec)
+{
+    for (int i = 0; i < vec.size(); i++){
+        std::cout << '|';
+        for(int j = 0; j < vec[0].size(); j++){
+            std::cout << vec[i][j] << ((j == vec[i].size() - 1) ? char(0) : '\t');
+        }
+        std::cout << '|' << std::endl;
+    }
+}
+
+void printTransposedMatrix(vector<vector<int>> &tVec)
+{
+    for (int i = 0; i < tVec.size(); i++){                                              // Проходимся по всем строкам (векторам) i матрицы tVec
+        std::cout << '|';                                                               // В начале каждой выводим "черту" для удобства
+        for(int j = 0; j < tVec[i].size(); j++){                                        // Проходимся по всем столбцам (элементам) j матрицы tVec
+            std::cout << tVec[j][i] << ((j == tVec[i].size() - 1) ? char(0) : '\t');    // Выводим транспорированную (просто поменяли местами строки
+        }                                                                               // и столбцы)
+        std::cout << '|' << std::endl;
+    }
+}
+
+/*vector<vector<int>> findProductOfMatrixesOld(vector<vector<int>> &A, vector<vector<int>> &B){
+    vector<vector<int>> temp;
+    for (int i = 0; (i < A.size() && i < B.size()); i++){
+        temp.push_back({});
+        for(int j = 0; (j < A[i].size() && j < B[i].size()); j++){
+            temp[i].push_back(-1);
+            temp[i][j] = A[j][i] * B[i][j];
+        }
+    }
+    return temp;
+}*/
+
+vector<vector<int>> findProductOfMatrixes(vector<vector<int>> &A, vector<vector<int>> &B){
+    vector<vector<int>> temp;                           // Создаём новую матрицу
+    for (int i=0; i < A.size(); i++){                   // Проходимся по всем строкам (векторам) i новой матрицы
+        temp.push_back({});                             // Заполняем новую матрицу строками i по мере необходимости
+        for (int j=0; j < B[i].size(); j++){            // Проходимся по всем столбцам (элементам) j новой матрицы
+            temp[i].push_back(0);                       // Заполняем новый элемент новой матрицы нулём
+            for (int x=0; x < A[i].size(); x++){        // Проходимся по всем столбцам x строк i матрицы A
+                for (int y=0; y < B.size(); y++){       // Проходимся по всем строкам y столбцов j матрицы B
+                    temp[i][j] += A[i][x] * B[y][j];    // Суммируем все возможные исходы
+                }
+            }
+        }
+    }
+    return temp;                                        // Надеемся, что результат будет посчитан правильный (пожалуйста, пусть будет правильный...)
+}
+
+int main() 
+{
+
+vector<vector<int>> matrix
+{
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+vector<vector<int>> patrix
+{
+    {1, 4, 7},
+    {2, 5, 8},
+    {3, 6, 9}
+};
+printMatrix(matrix);
+std::cout << "========================================\n";
+printTransposedMatrix(matrix);
+std::cout << "========================================\n";
+//printMatrix(findProductOfMatrixes(matrix, patrix));
+}
 
